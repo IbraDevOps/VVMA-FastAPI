@@ -56,3 +56,18 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 3000
+<<<<<<< HEAD
+=======
+
+---
+
+## ⚠️ Disclaimer
+
+This API is **intentionally vulnerable** and is provided for **educational and testing purposes only**. Do **NOT** deploy this in production environments.
+
+---
+
+## 🙌 Credits
+
+Inspired by the original [VVMA project](https://github.com/abigailajohn/VVMA) by [@abigailajohn](https://github.com/abigailajohn). Reimplemented in Python FastAPI by [@IbraDevOps](https://github.com/IbraDevOps).
+
