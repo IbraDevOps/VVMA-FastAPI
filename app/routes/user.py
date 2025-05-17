@@ -42,3 +42,14 @@ def delete_user(username: str, token: str = Depends(oauth2_scheme)):
 
     del users[username]
     return {"message": f"User {username} deleted"}
+
+
+@router.get("/profile/{username}")
+def get_profile(username: str, token: str = Depends(oauth2_scheme)):
+    payload = decode_token(token)
+
+    # ❗ BOLA Vulnerability: No check if the token user == profile user
+    if username not in users:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return {"profile": f"This is the profile of {username}"}
