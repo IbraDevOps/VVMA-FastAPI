@@ -2,14 +2,16 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from jose import jwt
-
+from app.models import users
 router = APIRouter()
 
 # Simulated users (replace with shared dict later)
-users = {
-    "admin": {"password": "admin123", "role": "admin"},
-    "user1": {"password": "123456", "role": "user"}
-}
+#users = {
+ #   "admin": {"password": "admin123", "role": "admin"},
+  #  "user1": {"password": "123456", "role": "user"}
+#    "user2": {"password": "12345678", "role": "user"}
+
+#}
 
 # ❗ Weak JWT setup (deliberately)
 SECRET_KEY = "supersecret"
