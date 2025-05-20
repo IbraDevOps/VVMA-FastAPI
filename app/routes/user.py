@@ -8,6 +8,8 @@ router = APIRouter()
 
 SECRET_KEY = "supersecret"
 ALGORITHM = "HS256"
+ISSUER = "vvma-fastapi"
+AUDIENCE = "vvma-users"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Model
@@ -27,7 +29,7 @@ def register(user: User):
 # Decode token
 def decode_token(token: str):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM],audience=AUDIENCE,issuer=ISSUER)
         return payload
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -53,3 +55,16 @@ def get_profile(username: str, token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=404, detail="User not found")
 
     return {"profile": f"This is the profile of {username}"}
+#BOPLA code
+@router.patch("/update-profile/{username}")
+def update_profile(username: str, update: dict, token: str = Depends(oauth2_scheme)):
+    payload = decode_token(token)
+
+    if username not in users:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # ❗ BOPLA: Allows updating anything, including role (very dangerous!)
+    users[username].update(update)
+
+    return {"message": f"User {username} updated", "new_data": users[username]}
+
