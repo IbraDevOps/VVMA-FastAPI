@@ -29,7 +29,7 @@ def register(user: User):
 # Decode token
 def decode_token(token: str):
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM],audience=AUDIENCE,issuer=ISSUER)
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], audience=AUDIENCE, issuer=ISSUER)
         return payload
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -45,7 +45,7 @@ def delete_user(username: str, token: str = Depends(oauth2_scheme)):
     del users[username]
     return {"message": f"User {username} deleted"}
 
-
+# View Profile (BOLA)
 @router.get("/profile/{username}")
 def get_profile(username: str, token: str = Depends(oauth2_scheme)):
     payload = decode_token(token)
@@ -55,7 +55,8 @@ def get_profile(username: str, token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=404, detail="User not found")
 
     return {"profile": f"This is the profile of {username}"}
-#BOPLA code
+
+# Update Profile (Patched BOPLA)
 @router.patch("/update-profile/{username}")
 def update_profile(username: str, update: dict, token: str = Depends(oauth2_scheme)):
     payload = decode_token(token)
@@ -63,8 +64,12 @@ def update_profile(username: str, update: dict, token: str = Depends(oauth2_sche
     if username not in users:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # ❗ BOPLA: Allows updating anything, including role (very dangerous!)
-    users[username].update(update)
+    # 🚫 Prevent changes to 'role' or other protected properties
+    if "role" in update:
+        raise HTTPException(status_code=403, detail="You are not allowed to update the role field")
+
+    # ✅ Apply only allowed updates (e.g., password)
+    allowed_fields = {"password"}
+    users[username].update({k: v for k, v in update.items() if k in allowed_fields})
 
     return {"message": f"User {username} updated", "new_data": users[username]}
-
