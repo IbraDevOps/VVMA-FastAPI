@@ -47,3 +47,27 @@ Edit
 
 
  Patch Commit: e9791e0
+
+
+### 🐞 SQL Injection (Simulated)
+
+- **Status:** ❌ Vulnerable  
+- **Vulnerable Endpoint:**  
+  ```http
+  GET /api/search?query=admin
+curl "http://localhost:3000/api/search?query=admin%27%20OR%20%271%27=%271"
+
+{
+  "results": ["admin", "user1", "other records"]
+}
+
+Reason:
+Input is directly processed without sanitization — vulnerable to SQL-like manipulation (or simulated logic injection in this case).
+
+Patch Plan:
+
+Add validation for query input
+
+Reject suspicious patterns (like ' OR '1'='1)
+
+Simulate use of parameterized search or proper filtering
