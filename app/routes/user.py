@@ -73,3 +73,15 @@ def update_profile(username: str, update: dict, token: str = Depends(oauth2_sche
     users[username].update({k: v for k, v in update.items() if k in allowed_fields})
 
     return {"message": f"User {username} updated", "new_data": users[username]}
+
+# now we patch the sql vuln code
+@router.get("/search")
+def search_users(query: str):
+    # Simulated "safe" search
+    blacklisted_keywords = ["'", "\"", "OR", "AND", "1=1", "--"]
+    if any(keyword.lower() in query.lower() for keyword in blacklisted_keywords):
+        raise HTTPException(status_code=400, detail="Invalid search query")
+
+    results = [user for user in users if query.lower() in user.lower()]
+    return {"results": results}
+
