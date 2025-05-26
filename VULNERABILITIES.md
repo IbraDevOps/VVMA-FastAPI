@@ -71,3 +71,27 @@ Add validation for query input
 Reject suspicious patterns (like ' OR '1'='1)
 
 Simulate use of parameterized search or proper filtering
+
+
+SSRF – Server-Side Request Forgery
+
+Vulnerable Endpoint:
+
+http
+Copy code
+GET /api/fetch-url?target=http://<any-url>
+Exploit Attempt:
+
+bash
+Copy code
+curl "http://localhost:3000/api/fetch-url?target=http://127.0.0.1:3000/api/profile/admin"
+Observed Behavior (Before Patch):
+
+json
+Copy code
+{
+  "status_code": 401,
+  "body": "{\"detail\":\"Not authenticated\"}"
+}
+
+Patch plan: restric allowed urls to external domains only,block private IPs(like 127.0.0.1) use allow-lists and timeout limits on requests
