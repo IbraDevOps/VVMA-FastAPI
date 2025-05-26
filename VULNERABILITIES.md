@@ -95,3 +95,33 @@ Copy code
 }
 
 Patch plan: restric allowed urls to external domains only,block private IPs(like 127.0.0.1) use allow-lists and timeout limits on requests
+
+
+No Rate Limiting on Login Endpoint
+Status: ❌ Vulnerable
+
+Vulnerable Endpoint:
+
+http
+Copy code
+POST /api/login
+Exploit Demonstration:
+Simulated brute-force attack using a looped login request with wrong passwords:
+
+bash
+Copy code
+for i in {1..10}; do
+  curl -X POST http://localhost:3000/api/login \
+    -H "Content-Type: application/json" \
+    -d '{"username": "user1", "password": "wrongpass"}'
+  echo -e "\nAttempt $i complete"
+done
+Observed Behavior:
+All 10 requests returned:
+
+json
+Copy code
+{
+  "detail": "Invalid credentials"
+}
+Patching: add req throtlling,blocking or even delaying re after repeated failure,finally addning account CAPTCHA
