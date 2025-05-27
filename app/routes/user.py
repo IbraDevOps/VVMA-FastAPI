@@ -1,3 +1,10 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ISSUER = os.getenv("ISSUER")
+AUDIENCE = os.getenv("AUDIENCE")
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
@@ -7,10 +14,10 @@ import bcrypt
 
 router = APIRouter()
 
-SECRET_KEY = "supersecret"
+#SECRET_KEY = "supersecret"
 ALGORITHM = "HS256"
-ISSUER = "vvma-fastapi"
-AUDIENCE = "vvma-users"
+#ISSUER = "vvma-fastapi"
+#AUDIENCE = "vvma-users"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Model

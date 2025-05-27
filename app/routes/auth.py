@@ -1,3 +1,9 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+SECRET_KEY = os.getenv("SECRET_KEY")
+ISSUER = os.getenv("ISSUER")
+AUDIENCE = os.getenv("AUDIENCE")
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import datetime, timedelta
@@ -5,8 +11,8 @@ from jose import jwt
 from app.models import users
 import bcrypt
 router = APIRouter()
-ISSUER = "vvma-fastapi"
-AUDIENCE = "vvma-users"
+#ISSUER = "vvma-fastapi"
+#AUDIENCE = "vvma-users"
 
 # Simulated users (replace with shared dict later)
 #users = {
@@ -17,7 +23,7 @@ AUDIENCE = "vvma-users"
 #}
 
 # ❗ Weak JWT setup (deliberately)
-SECRET_KEY = "supersecret"
+#SECRET_KEY = "supersecret"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
