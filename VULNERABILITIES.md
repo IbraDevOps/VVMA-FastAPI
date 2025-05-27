@@ -125,3 +125,40 @@ Copy code
   "detail": "Invalid credentials"
 }
 Patching: add req throtlling,blocking or even delaying re after repeated failure,finally addning account CAPTCHA
+
+
+User Registration with Hashed Password in FastAPI
+
+Installed dependencies:
+
+bash
+Copy code
+pip install fastapi uvicorn bcrypt
+Created /register Endpoint:
+
+Hash password using bcrypt and store it with the role user.
+
+Code:
+
+python
+Copy code
+@router.post("/register")
+def register(user: User):
+    if user.username in users:
+        raise HTTPException(status_code=400, detail="User already exists")
+    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt()).decode('utf-8')
+    users[user.username] = {"password": hashed_pw, "role": "user"}
+    print(users)  # Verify the user data
+    return {"message": f"User {user.username} registered"}
+Test Registration:
+
+Used curl to test the endpoint:
+
+bash
+Copy code
+curl -X POST http://127.0.0.1:3000/api/register \
+-H "Content-Type: application/json" \
+-d '{"username": "testuser", "password": "securepassword123"}'
+Verify:
+
+Check print(users) in the server logs to confirm the password is hashed correctly.

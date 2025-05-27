@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel
 from jose import jwt, JWTError
 from app.models import users
+import bcrypt
 
 router = APIRouter()
 
@@ -22,9 +23,16 @@ class User(BaseModel):
 def register(user: User):
     if user.username in users:
         raise HTTPException(status_code=400, detail="User already exists")
-    
-    users[user.username] = {"password": user.password, "role": "user"}  # Add default role
+
+    # ✅ Hash the password
+    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt()).decode('utf-8')
+
+    # Storing the user details including hashed password and role
+    users[user.username] = {"password": hashed_pw, "role": "user"}
+    # Print users dictionary to verify
+    print(users)  # This will show all users and their hashed passwords
     return {"message": f"User {user.username} registered"}
+
 
 # Decode token
 def decode_token(token: str):
@@ -74,7 +82,7 @@ def update_profile(username: str, update: dict, token: str = Depends(oauth2_sche
 
     return {"message": f"User {username} updated", "new_data": users[username]}
 
-# now we patch the sql vuln code
+# Now we patch the SQL vuln code
 @router.get("/search")
 def search_users(query: str):
     # Simulated "safe" search
@@ -85,3 +93,4 @@ def search_users(query: str):
     results = [user for user in users if query.lower() in user.lower()]
     return {"results": results}
 
+#print(users)  # This will print the users dictionary to verify password hashing
