@@ -186,3 +186,37 @@ Check print(users) in the server logs to confirm the password is hashed correctl
   ```
 
 - **Patch Commit:** _<your-latest commit hash>_
+
+
+---
+
+### 📦 Improper Inventory Management
+
+- **Status:** ❌ Vulnerable  
+- **Vulnerable Endpoint:**  
+  ```http
+  POST /api/reset
+  ```
+
+- **Description:**  
+  Anyone can reset the entire user store without authentication or authorization. No token or role check is required.
+
+- **Exploit:**
+
+  ```bash
+  curl -X POST http://localhost:3000/api/reset
+  ```
+
+- **Expected Output:**
+
+  ```json
+  {
+    "message": "All users deleted (reset done)"
+  }
+  ```
+
+- **Fix Plan:**
+  - Require admin token (JWT with role check)
+  - Reject all unauthorized access
+
+---
