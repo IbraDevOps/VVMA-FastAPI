@@ -162,3 +162,27 @@ curl -X POST http://127.0.0.1:3000/api/register \
 Verify:
 
 Check print(users) in the server logs to confirm the password is hashed correctly.
+
+
+### Weak JWT Secret / Token Tampering
+
+- **Status:** Patched  
+- **Issue:** Previously, the `SECRET_KEY` used to sign JWTs was hardcoded and weak (`"supersecret"`), allowing attackers to potentially forge or modify tokens.
+
+- **Fix:**  
+  - A strong secret is now generated using `secrets.token_hex(32)`.
+  - It’s stored securely in a `.env` file and loaded using `dotenv`.
+  - The app validates `iss`, `aud`, and `exp` claims properly.
+
+- **Sample Secure JWT (decoded):**
+  ```json
+  {
+    "sub": "Ibrahim",
+    "role": "user",
+    "iss": "vvma-fastapi",
+    "aud": "vvma-users",
+    "exp": 1748330751
+  }
+  ```
+
+- **Patch Commit:** _<your-latest commit hash>_
