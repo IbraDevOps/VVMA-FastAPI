@@ -1,0 +1,14 @@
+# Ignore virtual environments
+venv/
+__pycache__/
+
+# Ignore dotenv
+.env
+
+# Ignore SQLite or DB files
+*.sqlite3
+*.db
+
+# OS + editor files
+*.swp
+.DS_Store
