@@ -223,3 +223,15 @@ Check print(users) in the server logs to confirm the password is hashed correctl
 # How did we patch the Improper inventory mnagmnet?
 By restricting access to /api/reset endpoint,we added a check to ensure only authorized users with an admin role can perform the reset
 operation thus preventing unathorized or low-previlages users from wiping data.
+
+
+## Email Enumeration (Patched)
+
+**Original Behavior:**
+- The `/reset-password/request` endpoint returned different messages depending on whether a username existed or not, allowing attackers to enumerate valid users.
+
+**Patch:**
+- The endpoint now returns a generic response (`"If this account exists..."`) regardless of username validity, preventing enumeration.
+
+**File Affected:**
+- `app/routes/reset.py`
