@@ -220,3 +220,6 @@ Check print(users) in the server logs to confirm the password is hashed correctl
   - Reject all unauthorized access
 
 ---
+# How did we patch the Improper inventory mnagmnet?
+By restricting access to /api/reset endpoint,we added a check to ensure only authorized users with an admin role can perform the reset
+operation thus preventing unathorized or low-previlages users from wiping data.
