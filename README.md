@@ -24,7 +24,7 @@
 - Update/delete group (admin/owner only)
 - Manage membership (remove/promote)
 
-### 🔐 Password Reset
+###  Password Reset
 - Request password reset (via masked message)
 - Verify OTP and reset password
 
@@ -50,7 +50,7 @@ The following OWASP Top 10 API vulnerabilities were **intentionally introduced, 
 
 ---
 
-## 🛠 Setup
+##  Setup
 
 ### Run Locally
 
@@ -71,7 +71,7 @@ This API is **intentionally vulnerable** and is provided for **educational and t
 
 ---
 
-## 🙌 Credits
+##  Credits
 
 Inspired by the original [VVMA project](https://github.com/abigailajohn/VVMA) by [@abigailajohn](https://github.com/abigailajohn).
 Reimplemented in Python FastAPI by [@IbraDevOps](https://github.com/IbraDevOps).
