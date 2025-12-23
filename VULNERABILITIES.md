@@ -8,7 +8,7 @@
 - **Vulnerable Behavior:**  
   User could escalate privilege by modifying the `role` field directly:
   
-  ```bash
+  
   curl -X PATCH http://localhost:3000/api/update-profile/user1 \
     -H "Authorization: Bearer <user_token>" \
     -H "Content-Type: application/json" \
@@ -16,9 +16,7 @@
 
 Response before patch:
 
-json
-Copy
-Edit
+
 {
   "message": "User user1 updated",
   "new_data": {
@@ -30,18 +28,14 @@ Edit
 Patched Behavior:
 Same request now returns:
 
-json
-Copy
-Edit
+
 {
   "detail": "You are not allowed to update the role field"
 }
 
 Patch Commit: e9791e0
 
-yaml
-Copy
-Edit
+
 
 ---
 
@@ -77,18 +71,15 @@ SSRF – Server-Side Request Forgery
 
 Vulnerable Endpoint:
 
-http
-Copy code
+
 GET /api/fetch-url?target=http://<any-url>
 Exploit Attempt:
 
-bash
-Copy code
+
 curl "http://localhost:3000/api/fetch-url?target=http://127.0.0.1:3000/api/profile/admin"
 Observed Behavior (Before Patch):
 
-json
-Copy code
+
 {
   "status_code": 401,
   "body": "{\"detail\":\"Not authenticated\"}"
@@ -102,14 +93,12 @@ Status:  Vulnerable
 
 Vulnerable Endpoint:
 
-http
-Copy code
+
 POST /api/login
 Exploit Demonstration:
 Simulated brute-force attack using a looped login request with wrong passwords:
 
-bash
-Copy code
+
 for i in {1..10}; do
   curl -X POST http://localhost:3000/api/login \
     -H "Content-Type: application/json" \
@@ -119,8 +108,7 @@ done
 Observed Behavior:
 All 10 requests returned:
 
-json
-Copy code
+
 {
   "detail": "Invalid credentials"
 }
@@ -131,8 +119,7 @@ User Registration with Hashed Password in FastAPI
 
 Installed dependencies:
 
-bash
-Copy code
+
 pip install fastapi uvicorn bcrypt
 Created /register Endpoint:
 
@@ -154,8 +141,7 @@ Test Registration:
 
 Used curl to test the endpoint:
 
-bash
-Copy code
+
 curl -X POST http://127.0.0.1:3000/api/register \
 -H "Content-Type: application/json" \
 -d '{"username": "testuser", "password": "securepassword123"}'
@@ -175,7 +161,7 @@ Check print(users) in the server logs to confirm the password is hashed correctl
   - The app validates `iss`, `aud`, and `exp` claims properly.
 
 - **Sample Secure JWT (decoded):**
-  ```json
+  
   {
     "sub": "Ibrahim",
     "role": "user",
@@ -203,13 +189,13 @@ Check print(users) in the server logs to confirm the password is hashed correctl
 
 - **Exploit:**
 
-  ```bash
+ 
   curl -X POST http://localhost:3000/api/reset
   ```
 
 - **Expected Output:**
 
-  ```json
+
   {
     "message": "All users deleted (reset done)"
   }
