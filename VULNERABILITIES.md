@@ -1,10 +1,10 @@
-# 🔍 Documented Vulnerabilities – VVMA FastAPI Edition
+#  Documented Vulnerabilities – VVMA FastAPI Edition
 
 ---
 
-### 🔐 BOPLA – Broken Object Property Level Authorization
+###  BOPLA – Broken Object Property Level Authorization
 
-- **Status:** ✅ Patched  
+- **Status:**  Patched  
 - **Vulnerable Behavior:**  
   User could escalate privilege by modifying the `role` field directly:
   
@@ -49,9 +49,9 @@ Edit
  Patch Commit: e9791e0
 
 
-### 🐞 SQL Injection (Simulated)
+###  SQL Injection (Simulated)
 
-- **Status:** ❌ Vulnerable  
+- **Status:**  Vulnerable  
 - **Vulnerable Endpoint:**  
   ```http
   GET /api/search?query=admin
@@ -98,7 +98,7 @@ Patch plan: restric allowed urls to external domains only,block private IPs(like
 
 
 No Rate Limiting on Login Endpoint
-Status: ❌ Vulnerable
+Status:  Vulnerable
 
 Vulnerable Endpoint:
 
@@ -190,9 +190,9 @@ Check print(users) in the server logs to confirm the password is hashed correctl
 
 ---
 
-### 📦 Improper Inventory Management
+###  Improper Inventory Management
 
-- **Status:** ❌ Vulnerable  
+- **Status:**  Vulnerable  
 - **Vulnerable Endpoint:**  
   ```http
   POST /api/reset
